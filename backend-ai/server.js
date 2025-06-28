@@ -1,11 +1,10 @@
-// server.js
+// backend-ai/server.js
 require('dotenv').config(); // Carga las variables de entorno desde .env
 const express = require('express');
-const { OpenAI } = require('openai'); // Importa OpenAI SDK v4
-const cors = require('cors'); // Para manejar CORS
+const { OpenAI } = require('openai');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000; // Puerto del servidor
 
 // Configura el cliente de OpenAI con tu clave API
 const openai = new OpenAI({
@@ -13,7 +12,14 @@ const openai = new OpenAI({
 });
 
 // Middlewares
-app.use(cors()); // Permite solicitudes desde tu frontend
+// CORS middleware: Configuración más robusta para producción en Vercel
+// Es recomendable usar el paquete 'cors' aquí, incluso si ya tienes encabezados en vercel.json,
+// porque puede manejar preflights OPTIONS requests.
+app.use(cors({
+    origin: '*', // Permite cualquier origen. Para producción real, se recomienda poner el dominio de tu frontend.
+    methods: ['GET', 'POST', 'OPTIONS'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 app.use(express.json()); // Permite al servidor entender JSON en el cuerpo de las solicitudes
 
 // Ruta para manejar las solicitudes de chat
@@ -26,10 +32,10 @@ app.post('/chat', async (req, res) => {
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo", // O "gpt-4" si tienes acceso y lo prefieres
+            model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: userMessage }],
-            max_tokens: 150, // Límite de tokens para la respuesta
-            temperature: 0.7, // Creatividad de la respuesta (0.0 a 1.0)
+            max_tokens: 150,
+            temperature: 0.7,
         });
 
         const aiResponse = completion.choices[0].message.content;
@@ -37,16 +43,19 @@ app.post('/chat', async (req, res) => {
 
     } catch (error) {
         console.error('Error al comunicarse con OpenAI:', error);
-        if (error.response) {
-            console.error('Estado HTTP:', error.response.status);
-            console.error('Datos de error:', error.response.data);
-        }
-        res.status(500).json({ error: 'Error al obtener respuesta de la IA.' });
+        // Vercel Serverless Functions no tienen 'error.response' como un servidor tradicional,
+        // así que capturamos el mensaje general o detalles específicos si están disponibles.
+        const errorMessage = error.message || 'Error desconocido al obtener respuesta de la IA.';
+        console.error('Detalle del error:', errorMessage);
+
+        // Envía un error 500 con un mensaje más descriptivo si es posible
+        res.status(500).json({ 
+            error: 'Error al obtener respuesta de la IA.', 
+            details: process.env.NODE_ENV === 'development' ? errorMessage : 'Un error ha ocurrido en el servidor.' 
+        });
     }
 });
 
-// Iniciar el servidor
-app.listen(port, () => {
-    console.log(`Servidor backend escuchando en http://localhost:${port}`);
-    console.log('¡Recuerda iniciar este servidor antes de usar tu frontend!');
-});
+// ¡IMPORTANTE! Exporta la aplicación Express para que Vercel pueda usarla.
+// Remueve app.listen()
+module.exports = app;
