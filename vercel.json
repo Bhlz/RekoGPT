@@ -1,15 +1,17 @@
 {
   "functions": {
-    "backend-ai/server.js": { "runtime": "nodejs20.x" } 
+    "backend-ai/server.js": { "runtime": "nodejs20.x" }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/chat",
-      "destination": "/backend-ai/server.js"
+      "src": "/chat",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/backend-ai/server.js"
     },
     {
-      "source": "/chat/(.*)",
-      "destination": "/backend-ai/server.js"
+      "src": "/chat/(.*)",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/backend-ai/server.js"
     }
   ],
   "headers": [
@@ -17,8 +19,8 @@
       "source": "/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
       ]
     }
   ]
