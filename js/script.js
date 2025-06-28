@@ -183,13 +183,13 @@ chatInput.addEventListener('keypress', (e) => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
-        const response = await fetch('http://localhost:3000/chat', { // Asegúrate que esta URL coincida con tu backend
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: messageText }),
-        });
+        const response = await fetch('/chat', { // <-- ¡Cambia aquí!
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message: messageText }),
+});
 
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
