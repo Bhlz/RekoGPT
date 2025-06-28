@@ -1,0 +1,22 @@
+{
+  "rewrites": [
+    {
+      "source": "/chat",
+      "destination": "/backend-ai/server.js"
+    },
+    {
+      "source": "/chat/(.*)",
+      "destination": "/backend-ai/server.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    }
+  ]
+}

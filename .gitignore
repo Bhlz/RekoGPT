@@ -1,0 +1,9 @@
+# Directorios de módulos de Node
+node_modules/
+backend-ai/node_modules/
+
+# Archivos de configuración y variables de entorno
+.env
+
+# Directorios y archivos de Vercel
+.vercel/

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RekoGPT - AI Assistant</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">RekoGPT</div>
+        <nav>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="#home" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="#services" class="nav-link">Servicios</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">Acerca de</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contacto</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <button class="back-button" onclick="goBack()">← Volver</button>
+        
+        <div class="home-section" id="homeSection">
+            <div class="face-container">
+                <div class="face">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                    <div class="mouth"></div>
+                </div>
+            </div>
+            
+            <h1>AI Assistant</h1>
+            <p class="subtitle">Tu asistente inteligente personalizado</p>
+            
+            <button class="mic-button" onclick="activateOrb()">
+                <svg class="mic-icon" viewBox="0 0 24 24">
+                    <path d="M12 1C10.89 1 10 1.89 10 3V9C10 10.11 10.89 11 12 11S14 10.11 14 9V3C14 1.89 13.11 1 12 1ZM19 9V11C19 15.42 15.42 19 11 19H9V21H15V23H9V21H7V19H9C4.58 19 1 15.42 1 11V9H3C3 13.31 6.69 17 11 17S19 13.31 19 9H21V11H19Z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="orb-section" id="orbSection">
+            <div class="orb"></div>
+        </div>
+        
+        <div class="text-section" id="textSection">
+            <div class="typing-text" id="typingText"></div>
+        </div>
+
+        <div class="chat-section" id="chatSection">
+            <div class="chat-messages" id="chatMessages">
+                </div>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                <button id="sendMessageButton">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>

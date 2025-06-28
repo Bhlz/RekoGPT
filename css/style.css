@@ -1,0 +1,710 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #000000;
+    color: white;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1.5rem 2rem;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 2px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* --- Main Container --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 2rem 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* --- Home Section (Initial View) --- */
+.home-section {
+    text-align: center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    /* Ensure it's above other sections when active */
+    position: relative; 
+    z-index: 10;
+}
+
+.home-section.hidden {
+    transform: translateY(-100vh);
+    opacity: 0;
+    pointer-events: none;
+    /* When hidden, move it out of the flow to allow orb-section to take space */
+    position: absolute; 
+}
+
+/* --- Face Animation --- */
+.face-container {
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.face {
+    width: 300px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    position: relative;
+    animation: faceFloat 4s ease-in-out infinite;
+}
+
+@keyframes faceFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+.eye {
+    position: absolute;
+    width: 45px;
+    height: 65px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 3s infinite;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.eye.left {
+    top: 20px;
+    left: 60px;
+}
+
+.eye.right {
+    top: 20px;
+    right: 60px;
+}
+
+@keyframes blink {
+    0%, 90%, 100% { 
+        opacity: 1; 
+        transform: scaleY(1);
+    }
+    95% { 
+        opacity: 0.3; 
+        transform: scaleY(0.1);
+    }
+}
+
+.mouth {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 30px;
+    border: 4px solid white;
+    border-top: none;
+    border-radius: 0 0 60px 60px;
+    animation: smile 4s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes smile {
+    0%, 50%, 100% { transform: translateX(-50%) scaleX(1); }
+    25%, 75% { transform: translateX(-50%) scaleX(1.2); }
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+/* --- Microphone Button --- */
+.mic-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 10px 30px rgba(255, 255, 255, 0.2),
+        0 0 0 0 rgba(255, 255, 255, 0.2);
+    animation: buttonPulse 2s infinite;
+}
+
+@keyframes buttonPulse {
+    0% { 
+        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2), 0 0 0 0 rgba(255, 255, 255, 0.2);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3), 0 0 0 10px rgba(255, 255, 255, 0.1);
+        transform: scale(1.05);
+    }
+    100% { 
+        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2), 0 0 0 0 rgba(255, 255, 255, 0.2);
+        transform: scale(1);
+    }
+}
+
+.mic-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 20px 50px rgba(255, 255, 255, 0.3);
+}
+
+.mic-button:active {
+    transform: scale(0.95);
+}
+
+.mic-icon {
+    width: 24px;
+    height: 24px;
+    fill: black;
+}
+
+/* --- Orb Section (AI Orb) --- */
+.orb-section {
+    position: absolute; /* Keep absolute for desktop layout */
+    top: 50%;
+    left: 50%; /* Start centered */
+    transform: translate(-50%, -50%) scale(0); /* Hidden and scaled down initially */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 5; /* Below home section, above background */
+}
+
+.orb-section.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); /* Centered and visible */
+    pointer-events: all;
+}
+
+.orb-section.slide-left {
+    /* For desktop: Orb moves to the left to make space for text */
+    transform: translate(-70%, -50%) scale(0.8); /* Moved left and slightly smaller */
+}
+
+.orb {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #cccccc, #666666);
+    position: relative; /* Essential for :before pseudo-element */
+    animation: orbFloat 3s ease-in-out infinite, orbPulse 2s infinite;
+    box-shadow: 
+        0 0 50px rgba(255, 255, 255, 0.3),
+        0 0 100px rgba(255, 255, 255, 0.2),
+        inset 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes orbFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes orbPulse {
+    0%, 100% {
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0.3), 0 0 100px rgba(255, 255, 255, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 80px rgba(255, 255, 255, 0.5), 0 0 150px rgba(255, 255, 255, 0.3), inset 0 0 50px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.orb::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.1; transform: scale(1.2); }
+}
+
+/* --- Text Section (AI Response) --- */
+.text-section {
+    position: absolute; /* Keep absolute for desktop layout */
+    top: 50%;
+    left: 50%; /* Start centered */
+    transform: translate(-50%, -50%); /* Hidden with the orb initially */
+    max-width: 40%; /* Desktop width */
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    text-align: left;
+    z-index: 5; /* Same as orb section */
+}
+
+.text-section.active {
+    opacity: 1;
+    /* For desktop: Text moves to the right of the orb */
+    transform: translate(25%, -50%); /* Moved right relative to orb */
+    pointer-events: all;
+}
+
+.typing-text {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: white;
+    margin-left: 2px;
+    animation: cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* --- Back Button --- */
+.back-button {
+    position: fixed;
+    top: 6rem;
+    left: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 0.8rem 1.5rem;
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    opacity: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.back-button.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- Chat Section Styles --- */
+.chat-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 50vh;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother slide-up transition */
+    z-index: 999;
+    pointer-events: none;
+}
+
+.chat-section.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-message {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+    align-self: flex-start;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.chat-message.user {
+    background: #4A90E2;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.chat-message.ai {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-left-radius: 5px;
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+#chatInput {
+    flex-grow: 1;
+    padding: 12px 18px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#chatInput:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+#sendMessageButton {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#sendMessageButton:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+#sendMessageButton:active {
+    transform: translateY(0);
+}
+
+#sendMessageButton svg {
+    fill: black;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* Tablet & Mobile Landscape */
+@media (max-width: 768px) {
+    /* --- Header / Menu Toggle --- */
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        transition: left 0.3s ease;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-link {
+        font-size: 1.5rem;
+    }
+
+    /* --- Main Container Padding --- */
+    .container {
+        padding: 6rem 1rem 2rem;
+    }
+    
+    /* --- Face in Home Section (adjustments for smaller screens) --- */
+    .face {
+        width: 250px;
+        height: 170px;
+    }
+    
+    .eye {
+        width: 35px;
+        height: 50px;
+    }
+    
+    .eye.left {
+        top: 15px;
+        left: 50px;
+    }
+    
+    .eye.right {
+        top: 15px;
+        right: 50px;
+    }
+    
+    .mouth {
+        bottom: 30px;
+        width: 50px;
+        height: 25px;
+        border-width: 3px;
+    }
+    
+    .mic-button {
+        width: 70px;
+        height: 70px;
+    }
+    
+    /* --- Orb Section Responsiveness (stacked layout) --- */
+    .orb-section {
+        position: relative; /* Change to relative for stacking */
+        top: auto;
+        left: auto;
+        transform: none; /* Reset absolute positioning transforms */
+        width: 100%; /* Take full width */
+        height: auto; /* Height adapts to content */
+        margin-top: 2rem; /* Spacing from header or previous element */
+        flex-direction: column; /* Ensure content stacks if needed */
+        justify-content: flex-start; /* Align content to start when stacked */
+        padding-top: 60px; /* Adjust if header overlaps, ensures content visible */
+    }
+
+    .orb-section.active {
+        transform: none; /* No specific transform when active in mobile */
+    }
+
+    .orb-section.slide-left {
+        /* In mobile, the orb should remain centered or slightly adjusted, not slid far left */
+        transform: translateY(0) scale(0.8); /* Center and slightly smaller */
+        padding-top: 0; /* No need for padding-top if orb itself moves */
+    }
+
+    .orb {
+        width: 150px;
+        height: 150px;
+        /* Keep original orb styles as much as possible */
+    }
+    
+    /* --- Text Section Responsiveness (stacked layout) --- */
+    .text-section {
+        position: relative; /* Change to relative for stacking */
+        top: auto;
+        left: auto;
+        transform: none; /* Reset absolute positioning transforms */
+        max-width: 90%; /* Wider for better readability on smaller screens */
+        margin-top: 2rem; /* Space between orb and text */
+        text-align: center; /* Center text when stacked */
+        display: flex; /* Use flex for centering if needed */
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .text-section.active {
+        transform: none; /* No specific transform when active in mobile */
+    }
+
+    /* --- Chat Section Responsiveness --- */
+    .chat-section {
+        padding: 0.8rem 1rem;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    /* Smaller face elements for very small screens */
+    .face {
+        width: 200px;
+        height: 140px;
+    }
+    
+    .eye {
+        width: 28px;
+        height: 40px;
+    }
+    
+    .eye.left {
+        top: 12px;
+        left: 40px;
+    }
+    
+    .eye.right {
+        top: 12px;
+        right: 40px;
+    }
+    
+    .mouth {
+        bottom: 25px;
+        width: 40px;
+        height: 20px;
+        border-width: 3px;
+    }
+    
+    /* Smaller orb for very small screens */
+    .orb {
+        width: 120px;
+        height: 120px;
+    }
+
+    .back-button {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .text-section {
+        margin-top: 1.5rem; /* Reduce spacing slightly */
+    }
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 100px; /* Ancho ajustado para los puntos */
+    justify-content: space-around;
+}
+
+.typing-indicator .dot {
+    font-size: 1.5rem;
+    line-height: 0;
+    animation: blinkDot 1.4s infinite ease-in-out;
+    opacity: 0.2;
+}
+
+.typing-indicator .dot:nth-child(1) { animation-delay: 0s; }
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blinkDot {
+    0%, 80%, 100% { opacity: 0.2; }
+    40% { opacity: 1; }
+}
