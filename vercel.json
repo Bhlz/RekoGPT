@@ -1,6 +1,6 @@
 {
   "functions": {
-    "backend-ai/server.js": { "runtime": "@vercel/node@3.0.0" } 
+    "backend-ai/server.js": { "runtime": "nodejs20.x" } 
   },
   "routes": [
     {
